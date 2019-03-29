@@ -4,10 +4,10 @@ import com.codingapi.example.client.mapper.ClientDemoMapper;
 import com.codingapi.example.common.db.domain.Demo;
 import com.codingapi.example.common.spring.DDemoClient;
 import com.codingapi.example.common.spring.EDemoClient;
-import com.codingapi.txlcn.client.bean.DTXLocal;
-import com.codingapi.txlcn.commons.annotation.LcnTransaction;
+import com.codingapi.txlcn.common.util.Transactions;
+import com.codingapi.txlcn.tc.annotation.LcnTransaction;
+import com.codingapi.txlcn.tracing.TracingContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
@@ -29,9 +29,6 @@ public class DemoServiceImpl implements DemoService {
 
     private final EDemoClient eDemoClient;
 
-    @Value("${spring.application.name}")
-    private String appName;
-
     @Autowired
     public DemoServiceImpl(ClientDemoMapper demoMapper, DDemoClient dDemoClient, EDemoClient eDemoClient) {
         this.demoMapper = demoMapper;
@@ -44,13 +41,14 @@ public class DemoServiceImpl implements DemoService {
     public String execute(String value) {
         String dResp = dDemoClient.rpc(value);
         String eResp = eDemoClient.rpc(value);
+
         Demo demo = new Demo();
         demo.setDemoField(value);
-        demo.setAppName(appName);
         demo.setCreateTime(new Date());
-        demo.setGroupId(DTXLocal.getOrNew().getGroupId());
-        demo.setUnitId(DTXLocal.getOrNew().getUnitId());
+        demo.setGroupId(TracingContext.tracing().groupId());
+        demo.setAppName(Transactions.getApplicationId());
         demoMapper.save(demo);
+
 //        int i = 1/0;
         return dResp + " > " + eResp + " > " + "ok-client";
     }
