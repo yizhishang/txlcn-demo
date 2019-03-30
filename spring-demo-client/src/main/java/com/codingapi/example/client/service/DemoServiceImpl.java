@@ -40,7 +40,7 @@ public class DemoServiceImpl implements DemoService {
     @LcnTransaction
     public String execute(String value) {
         String dResp = dDemoClient.rpc(value);
-        String eResp = eDemoClient.rpc(value);
+        String eResp = executeE(value);
 
         Demo demo = new Demo();
         demo.setDemoField(value);
@@ -49,9 +49,12 @@ public class DemoServiceImpl implements DemoService {
         demo.setAppName(Transactions.getApplicationId());
         demoMapper.save(demo);
 
-//        int i = 1/0;
+        int i = 1/0;
         return dResp + " > " + eResp + " > " + "ok-client";
     }
 
+    private String executeE(String value){
+        return eDemoClient.rpc(value);
+    }
 
 }
