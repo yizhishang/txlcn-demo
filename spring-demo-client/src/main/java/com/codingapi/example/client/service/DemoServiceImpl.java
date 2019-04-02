@@ -49,7 +49,7 @@ public class DemoServiceImpl implements DemoService {
         demo.setAppName(Transactions.getApplicationId());
         demoMapper.save(demo);
 
-        int i = 1/0;
+//        int i = 1/0;
         return dResp + " > " + eResp + " > " + "ok-client";
     }
 
