@@ -39,9 +39,9 @@ public class DemoServiceImpl implements DemoService {
     @Override
     @LcnTransaction
     public String execute(String value) {
-        String dResp = dDemoClient.rpc(value);
-        String eResp = executeE(value);
 
+        String eResp = executeE(value);
+        String dResp = dDemoClient.rpc(value);
         Demo demo = new Demo();
         demo.setDemoField(value);
         demo.setCreateTime(new Date());
