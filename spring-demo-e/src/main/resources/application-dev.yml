@@ -1,0 +1,35 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8888/eureka
+  instance:
+    hostname: ${spring.cloud.client.ip-address}
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    prefer-ip-address: true
+
+logging:
+  level:
+    com.codingapi.txlcn: debug
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    use-generated-keys: true
+
+server:
+  port: 8081
+
+spring:
+  application:
+    name: spring-demo-e
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 20
+    password: root
+    url: jdbc:mysql://192.168.110.1/txlcn-demoE?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+    username: root
+  main:
+    allow-bean-definition-overriding: true
+  redis:
+    host: 127.0.0.1

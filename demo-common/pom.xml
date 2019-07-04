@@ -5,20 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>txlcn-demo</artifactId>
-        <groupId>com.codingapi.txlcn</groupId>
-        <version>5.0.2.RELEASE</version>
+        <groupId>com.example.txlcn</groupId>
+        <version>1.0.0.RELEASE</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <groupId>com.example</groupId>
+
     <artifactId>demo-common</artifactId>
-    <version>5.0.2.RELEASE</version>
     <name>demo-common</name>
     <packaging>jar</packaging>
-    <description>demo-common project for Spring Boot</description>
-
-    <properties>
-        <lombok.version>1.18.0</lombok.version>
-    </properties>
 
     <dependencies>
 
@@ -54,12 +48,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-tomcat</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
