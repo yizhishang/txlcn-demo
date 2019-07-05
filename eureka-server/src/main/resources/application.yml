@@ -7,17 +7,3 @@ eureka:
 spring:
   application:
     name: eureka-server
-
-
-opentracing:
-  jaeger:
-    http-sender:
-      url: http://192.168.110.119:32030/api/traces
-    udp-sender:
-      host: 192.168.110.119
-      port: 32030
-    log-spans: true
-  spring:
-    cloud:
-      async:
-        enabled: true
