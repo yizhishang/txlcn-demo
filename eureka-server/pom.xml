@@ -47,7 +47,7 @@
                     <!-- 以下两行是为了docker push到DockerHub使用的。 -->
                     <serverId>docker-local</serverId>
                     <registryUrl>${docker.host}:${docker.port}</registryUrl>
-                    <dockerHost>http://${docker.host}:${docker.port}</dockerHost>
+                    <dockerHost>http://${docker.host}:2375</dockerHost>
 
                     <!-- 如果要将docker镜像push到DockerHub上去的话，这边的路径要和repo路径一致 -->
                     <imageName>${docker.host}:${docker.port}/${docker.image.prefix}/${project.artifactId}</imageName>
