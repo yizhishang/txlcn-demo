@@ -27,8 +27,6 @@ spec:
       - name: eureka-server
         image: 192.168.110.119:5000/yizhishang/eureka-server
         imagePullPolicy: IfNotPresent
-        # command: ["java"]
-        # args: ["-jar", "/usr/local/eureka-server.jar","--spring.profiles.active=test","--server.port=8300"]
         env:
           - name: JAVA_OPTS
             value: -javaagent:/sidecar/agent/skywalking-agent.jar
