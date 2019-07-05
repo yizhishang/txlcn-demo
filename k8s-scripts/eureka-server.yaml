@@ -14,6 +14,14 @@ spec:
         app: eureka-server
     spec:
       terminationGracePeriodSeconds: 60
+      initContainers:
+        - name: sidecar
+          image: evanxuhe/skywalking-agent-sidecar:6.1.0 # 容器镜像，包含静态资源文件
+          imagePullPolicy: IfNotPresent
+          command: ["cp", "-r", "/data/agent", "/sidecar"]
+          volumeMounts:
+            - name: sidecar
+              mountPath: /sidecar
 #      hostNetwork: true
       containers:
       - name: eureka-server
@@ -21,6 +29,15 @@ spec:
         imagePullPolicy: IfNotPresent
         # command: ["java"]
         # args: ["-jar", "/usr/local/eureka-server.jar","--spring.profiles.active=test","--server.port=8300"]
+        env:
+          - name: JAVA_OPTS
+            value: -javaagent:/sidecar/agent/skywalking-agent.jar
+          - name: SW_AGENT_NAME
+            value: eureka-server
+          - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
+            value: 192.168.110.119:32067
+          - name: EUREKA_HOSTNAME
+            value: eureka-server
         ports:
         - name: http
           containerPort: 8080

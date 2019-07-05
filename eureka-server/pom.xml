@@ -26,6 +26,48 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+            <!-- maven插件:docker-maven-plugin -->
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.2.0</version>
+                <executions>
+                    <execution>
+                        <id>build-image</id><!-- 要绑定到的生命周期的阶段 -->
+                        <phase>package</phase><!-- 要绑定到的生命周期的阶段 -->
+                        <goals> <!-- 要绑定的插件的目标 -->
+                            <goal>build</goal>
+                            <goal>push</goal>
+                        </goals>
+                    </execution>
+                </executions>
+
+                <configuration>
+                    <!-- 以下两行是为了docker push到DockerHub使用的。 -->
+                    <serverId>docker-local</serverId>
+                    <registryUrl>${docker.host}:${docker.port}</registryUrl>
+                    <dockerHost>http://${docker.host}:${docker.port}</dockerHost>
+
+                    <!-- 如果要将docker镜像push到DockerHub上去的话，这边的路径要和repo路径一致 -->
+                    <imageName>${docker.host}:${docker.port}/${docker.image.prefix}/${project.artifactId}</imageName>
+                    <forceTags>true</forceTags>
+
+                    <!-- 指定Dockerfile所在的路径 -->
+                    <dockerDirectory>src/main/docker</dockerDirectory>
+                    <buildArgs>
+                        <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+                    </buildArgs>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
