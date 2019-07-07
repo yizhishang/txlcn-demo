@@ -33,7 +33,8 @@ spec:
           - name: SW_AGENT_NAME
             value: eureka-server
           - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
-            value: 192.168.110.119:32067
+#            value: 192.168.110.119:32067
+            value: oap.skywalking.svc.cluster.local:11800
           - name: EUREKA_HOSTNAME
             value: eureka-server
         ports:
