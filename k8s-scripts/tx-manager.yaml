@@ -1,0 +1,107 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: tx-manager
+  namespace: tx-manager
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tx-manager
+  template:
+    metadata:
+      labels:
+        app: tx-manager
+    spec:
+      terminationGracePeriodSeconds: 60
+      initContainers:
+        - name: sidecar
+          image: evanxuhe/skywalking-agent-sidecar:6.1.0 # 容器镜像，包含静态资源文件
+          imagePullPolicy: IfNotPresent
+          command: ["cp", "-r", "/data/agent", "/sidecar"]
+          volumeMounts:
+            - name: sidecar
+              mountPath: /sidecar
+#      hostNetwork: true
+      containers:
+      - name: tx-manager
+        image: 192.168.110.119:5000/yizhishang/tx-manager
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: JAVA_OPTS
+            value: -javaagent:/sidecar/agent/skywalking-agent.jar
+          - name: SW_AGENT_NAME
+            value: tx-manager
+          - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
+            value: oap.skywalking.svc.cluster.local:11800
+          - name: tx-lcn.manager.host
+            value: "192.168.110.119"
+          - name: tx-lcn.manager.adminKey
+            value: root
+          - name: spring.redis.host
+            value: "192.168.110.119"
+          - name: spring.redis.port
+            value: "6379"
+          - name: spring.redis.database
+            value: "3"
+          - name: spring.datasource.driver-class-name
+            value: "com.mysql.jdbc.Driver"
+          - name: spring.datasource.url
+            value: jdbc:mysql://192.168.110.1:3306/tx-manager?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+          - name: spring.datasource.username
+            value: root
+          - name: spring.datasource.password
+            value: root
+        ports:
+        - name: web
+          containerPort: 8080
+          protocol: TCP
+        - name: socket
+          containerPort: 8070
+          protocol: TCP
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /actuator/health
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 20
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /actuator/health
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 20
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        volumeMounts:
+          - name: sidecar
+            mountPath: /sidecar
+      volumes:
+        - name: sidecar
+          emptyDir: {}
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: tx-manager
+  namespace: tx-manager
+  labels:
+    app: tx-manager
+spec:
+  selector:
+    app: tx-manager
+  type: NodePort
+  ports:
+    - name: web
+      port: 8080
+      protocol: TCP
+    - name: socket
+      port: 8070
+      protocol: TCP
