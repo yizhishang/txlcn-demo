@@ -22,7 +22,6 @@ spec:
           volumeMounts:
             - name: sidecar
               mountPath: /sidecar
-#      hostNetwork: true
       containers:
       - name: eureka-server
         image: 192.168.110.119:5000/yizhishang/eureka-server
@@ -33,7 +32,6 @@ spec:
           - name: SW_AGENT_NAME
             value: eureka-server
           - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
-#            value: 192.168.110.119:32067
             value: oap.skywalking.svc.cluster.local:11800
           - name: EUREKA_HOSTNAME
             value: eureka-server

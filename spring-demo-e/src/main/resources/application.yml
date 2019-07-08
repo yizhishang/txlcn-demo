@@ -16,9 +16,6 @@ mybatis:
     map-underscore-to-camel-case: true
     use-generated-keys: true
 
-server:
-  port: 8081
-
 spring:
   application:
     name: spring-demo-e

@@ -34,8 +34,6 @@ spec:
             value: tx-manager
           - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
             value: oap.skywalking.svc.cluster.local:11800
-          - name: tx-lcn.manager.host
-            value: "192.168.110.119"
           - name: tx-lcn.manager.adminKey
             value: root
           - name: spring.redis.host

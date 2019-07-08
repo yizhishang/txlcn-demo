@@ -14,13 +14,33 @@ spec:
         app: demo-client
     spec:
       terminationGracePeriodSeconds: 60
-#      hostNetwork: true
+      initContainers:
+        - name: sidecar
+          image: evanxuhe/skywalking-agent-sidecar:6.1.0 # 容器镜像，包含静态资源文件
+          imagePullPolicy: IfNotPresent
+          command: ["cp", "-r", "/data/agent", "/sidecar"]
+          volumeMounts:
+            - name: sidecar
+              mountPath: /sidecar
       containers:
       - name: demo-client
-        image: 192.168.110.119:5000/yizhishang/demo-client
+        image: 192.168.110.119:5000/yizhishang/spring-demo-client
         imagePullPolicy: IfNotPresent
-        # command: ["java"]
-        # args: ["-jar", "/usr/local/demo-client.jar","--spring.profiles.active=test","--server.port=8300"]
+        env:
+          - name: JAVA_OPTS
+            value: -javaagent:/sidecar/agent/skywalking-agent.jar
+          - name: SW_AGENT_NAME
+            value: demo-client
+          - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
+            value: oap.skywalking.svc.cluster.local:11800
+          - name: eureka.client.service-url.defaultZone
+            value: http://eureka-server:8080/eureka
+          - name: spring.redis.host
+            value: "192.168.110.119"
+          - name: spring.redis.port
+            value: "6379"
+          - name: spring.redis.database
+            value: "3"
         ports:
         - name: http
           containerPort: 8080
@@ -44,6 +64,12 @@ spec:
           periodSeconds: 10
           successThreshold: 1
           timeoutSeconds: 1
+        volumeMounts:
+          - name: sidecar
+            mountPath: /sidecar
+      volumes:
+        - name: sidecar
+          emptyDir: {}
 ---
 
 apiVersion: v1

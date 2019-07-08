@@ -7,7 +7,6 @@
         <artifactId>txlcn-demo</artifactId>
         <groupId>com.example.txlcn</groupId>
         <version>1.0.0.RELEASE</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>demo-common</artifactId>
