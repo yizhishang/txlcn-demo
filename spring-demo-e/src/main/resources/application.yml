@@ -7,6 +7,9 @@ eureka:
     instance-id: ${spring.cloud.client.ip-address}:${server.port}
     prefer-ip-address: true
 
+server:
+  port: 8080
+
 logging:
   level:
     com.codingapi.txlcn: debug

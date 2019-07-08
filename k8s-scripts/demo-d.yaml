@@ -34,7 +34,7 @@ spec:
           - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
             value: oap.skywalking.svc.cluster.local:11800
           - name: eureka.client.service-url.defaultZone
-            value: http://eureka-server:8080/eureka
+            value: http://eureka-server.tx-manager.svc.cluster.local:8080/eureka
           - name: spring.redis.host
             value: "192.168.110.119"
           - name: spring.redis.port
@@ -44,26 +44,26 @@ spec:
         ports:
         - name: http
           containerPort: 8080
-        livenessProbe:
-          failureThreshold: 3
-          httpGet:
-            path: /actuator/health
-            port: 8080
-            scheme: HTTP
-          initialDelaySeconds: 20
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: 1
-        readinessProbe:
-          failureThreshold: 3
-          httpGet:
-            path: /actuator/health
-            port: 8080
-            scheme: HTTP
-          initialDelaySeconds: 20
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: 1
+#        livenessProbe:
+#          failureThreshold: 3
+#          httpGet:
+#            path: /actuator/health
+#            port: 8080
+#            scheme: HTTP
+#          initialDelaySeconds: 20
+#          periodSeconds: 10
+#          successThreshold: 1
+#          timeoutSeconds: 1
+#        readinessProbe:
+#          failureThreshold: 3
+#          httpGet:
+#            path: /actuator/health
+#            port: 8080
+#            scheme: HTTP
+#          initialDelaySeconds: 20
+#          periodSeconds: 10
+#          successThreshold: 1
+#          timeoutSeconds: 1
         volumeMounts:
         - name: sidecar
           mountPath: /sidecar
