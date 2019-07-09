@@ -1,13 +1,6 @@
 version: '3'
 services:
 
-  redis:
-    container_name: lcn_redis
-    image: redis:5.0.3-alpine
-    restart: on-failure:10
-    ports:
-      - 6379:6379
-
   eureka-server:
     container_name: eureka-server
     image: 192.168.110.117:5000/yizhishang/eureka-server:latest
@@ -24,8 +17,6 @@ services:
     ports:
       - 192.168.110.117:7970:7970
       - 8070:8070
-    depends_on:
-      - redis
     environment:
       server.port: 7970
       tx-lcn.manager.adminKey: root
@@ -45,7 +36,6 @@ services:
     depends_on:
       - tx-manager
       - eureka-server
-      - redis
     environment:
       server.port: 8081
       spring.redis.host: 192.168.110.117
@@ -63,7 +53,6 @@ services:
     ports:
       - 8082:8082
     depends_on:
-      - redis
       - eureka-server
       - tx-manager
     environment:
@@ -85,7 +74,6 @@ services:
     depends_on:
       - eureka-server
       - tx-manager
-      - redis
     environment:
       server.port: 8083
       spring.redis.host: 192.168.110.117
