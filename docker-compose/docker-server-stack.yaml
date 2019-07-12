@@ -22,14 +22,14 @@ services:
     image: 192.168.110.117:5000/yizhishang/tx-manager:latest
     ports:
       - 7970:7970
-      - 8070:8070
     networks:
       - net
     environment:
       server.port: 7970
-#      tx-lcn.manager.host: tx-manager
+      tx-lcn.manager.host:
 #      tx-lcn.manager.host: 192.168.110.117
       tx-lcn.manager.adminKey: root
+      spring.profiles.active: dev
       spring.redis.host: 192.168.110.117
       spring.redis.port: 6379
       spring.datasource.driver-class-name: com.mysql.jdbc.Driver

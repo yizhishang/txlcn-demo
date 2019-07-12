@@ -39,9 +39,6 @@
         <mysql.version>8.0.15</mysql.version>
         <lombok.version>1.18.0</lombok.version>
 
-        <docker.host>192.168.110.117</docker.host>
-        <docker.port>5000</docker.port>
-        <docker.image.prefix>yizhishang</docker.image.prefix>
     </properties>
 
     <parent>
@@ -93,6 +90,12 @@
 
         </dependencies>
     </dependencyManagement>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+        </profile>
+    </profiles>
     <build>
         <plugins>
             <plugin>

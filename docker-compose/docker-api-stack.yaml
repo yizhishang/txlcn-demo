@@ -11,15 +11,9 @@ services:
     networks:
       - net
     environment:
-#      tx-lcn.client.manager-address: 192.168.110.117:8070
+      spring.profiles.active: dev
       server.port: 8081
-      spring.redis.host: 192.168.110.117
-      spring.redis.port: 6379
       eureka.client.service-url.defaultZone: http://eureka-server:1111/eureka
-      spring.datasource.driver-class-name: com.mysql.cj.jdbc.Driver
-      spring.datasource.url: jdbc:mysql://192.168.110.1:3306/txlcn-demo?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
-      spring.datasource.username: root
-      spring.datasource.password: root
     deploy:
       mode: replicated
       replicas: 1
@@ -29,35 +23,26 @@ services:
         max_attempts: 3
         window: 120s
 
-#  spring-demo-d:
-#    image: 192.168.110.117:5000/yizhishang/spring-demo-d:latest
-#    ports:
-#      - 8082:8082
-#    depends_on:
-#      - eureka-server
-#      - tx-manager
-#    environment:
-#      server.port: 8082
-#      spring.redis.host: 192.168.110.117
-#      spring.redis.port: 6379
-#      eureka.client.service-url.defaultZone: http://eureka-server:1111/eureka
-#      spring.datasource.driver-class-name: com.mysql.cj.jdbc.Driver
-#      spring.datasource.url: jdbc:mysql://192.168.110.1:3306/txlcn-demod?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
-#      spring.datasource.username: root
-#      spring.datasource.password: root
-#    deploy:
-#      mode: replicated
-#      replicas: 2
-#      restart_policy:
-#        condition: on-failure
-#        delay: 10s
-#        max_attempts: 3
-#        window: 120s
-#
+  spring-demo-d:
+    image: 192.168.110.117:5000/yizhishang/spring-demo-d:latest
+    depends_on:
+      - eureka-server
+      - tx-manager
+    environment:
+      server.port: 8082
+      spring.profiles.active: dev
+      eureka.client.service-url.defaultZone: http://eureka-server:1111/eureka
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+        window: 120s
+
 #  spring-demo-e:
 #    image: 192.168.110.117:5000/yizhishang/spring-demo-e:latest
-#    ports:
-#      - 8083:8083
 #    depends_on:
 #      - eureka-server
 #      - tx-manager
@@ -71,13 +56,8 @@ services:
 #        window: 120s
 #    environment:
 #      server.port: 8083
-#      spring.redis.host: 192.168.110.117
-#      spring.redis.port: 6379
+#      spring.profiles.active: dev
 #      eureka.client.service-url.defaultZone: http://eureka-server:1111/eureka
-#      spring.datasource.driver-class-name: com.mysql.cj.jdbc.Driver
-#      spring.datasource.url: jdbc:mysql://192.168.110.1:3306/txlcn-demoe?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
-#      spring.datasource.username: root
-#      spring.datasource.password: root
 
 networks:
   net:

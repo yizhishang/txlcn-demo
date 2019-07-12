@@ -1,7 +1,7 @@
 eureka:
   client:
     service-url:
-      defaultZone: http://192.168.110.117:1111/eureka
+      defaultZone: http://127.0.0.1:8888/eureka
   instance:
     hostname: ${spring.cloud.client.ip-address}
     instance-id: ${spring.cloud.client.ip-address}:${server.port}
@@ -19,10 +19,6 @@ mybatis:
 server:
   port: 8083
 
-tx-lcn:
-  client:
-    managerAddress: 192.168.110.117:8070
-
 spring:
   application:
     name: spring-demo-client
@@ -37,3 +33,11 @@ spring:
     allow-bean-definition-overriding: true
   redis:
     host: 192.168.110.117
+
+tx-lcn:
+  logger:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    enabled: true
+    jdbc-url: jdbc:mysql://192.168.110.1:3306/tx_logger?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+    password: root
+    username: root

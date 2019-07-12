@@ -1,0 +1,24 @@
+logging:
+  level:
+    com:
+      codingapi: debug
+spring:
+  application:
+    name: spring-demo-client
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+    password: root
+    url: jdbc:mysql://192.168.110.1:3306/txlcn-demo?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+    username: root
+tx-lcn:
+  client:
+    # manager服务地址(rpc端口),可填写多个负载
+    manager-address: 127.0.0.1:8070
+  logger:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    enabled: true
+    jdbc-url: jdbc:mysql://192.168.110.1:3306/tx_logger?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+    password: root
+    username: root
