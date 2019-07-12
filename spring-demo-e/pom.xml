@@ -26,8 +26,6 @@
 
     <build>
 
-        <finalName>spring-client-e</finalName>
-
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
