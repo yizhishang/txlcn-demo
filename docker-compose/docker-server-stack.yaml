@@ -1,0 +1,50 @@
+version: '3.3'
+services:
+
+  eureka-server:
+    image: 192.168.110.117:5000/yizhishang/eureka-server:latest
+    ports:
+      - 1111:1111
+    environment:
+      server.port: 1111
+    networks:
+      - net
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+        window: 120s
+      placement:
+        constraints: [node.role == manager]
+
+  tx-manager:
+    image: 192.168.110.117:5000/yizhishang/tx-manager:latest
+    ports:
+      - 7970:7970
+      - 8070:8070
+    networks:
+      - net
+    environment:
+      server.port: 7970
+#      tx-lcn.manager.host: tx-manager
+#      tx-lcn.manager.host: 192.168.110.117
+      tx-lcn.manager.adminKey: root
+      spring.redis.host: 192.168.110.117
+      spring.redis.port: 6379
+      spring.datasource.driver-class-name: com.mysql.jdbc.Driver
+      spring.datasource.url: jdbc:mysql://192.168.110.1:3306/tx-manager?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+      spring.datasource.username: root
+      spring.datasource.password: root
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+        window: 120s
+      placement:
+        constraints: [node.role == manager]
+
+networks:
+  net:
+    driver: overlay
