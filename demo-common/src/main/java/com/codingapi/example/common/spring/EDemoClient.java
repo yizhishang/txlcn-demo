@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  *
  * @author ujued
  */
-@FeignClient(value = "spring-demo-e")
+@FeignClient(value = "spring-demo-e", url = "spring-demo-e:8083")
 public interface EDemoClient {
 
     @GetMapping("/rpc")
