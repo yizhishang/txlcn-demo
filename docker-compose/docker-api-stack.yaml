@@ -28,6 +28,8 @@ services:
     depends_on:
       - eureka-server
       - tx-manager
+    networks:
+      - net
     environment:
       server.port: 8082
       spring.profiles.active: dev
@@ -41,23 +43,25 @@ services:
         max_attempts: 3
         window: 120s
 
-#  spring-demo-e:
-#    image: 192.168.110.117:5000/yizhishang/spring-demo-e:latest
-#    depends_on:
-#      - eureka-server
-#      - tx-manager
-#    deploy:
-#      mode: replicated
-#      replicas: 2
-#      restart_policy:
-#        condition: on-failure
-#        delay: 10s
-#        max_attempts: 3
-#        window: 120s
-#    environment:
-#      server.port: 8083
-#      spring.profiles.active: dev
-#      eureka.client.service-url.defaultZone: http://eureka-server:1111/eureka
+  spring-demo-e:
+    image: 192.168.110.117:5000/yizhishang/spring-demo-e:latest
+    depends_on:
+      - eureka-server
+      - tx-manager
+    networks:
+      - net
+    deploy:
+      mode: replicated
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+        window: 120s
+    environment:
+      server.port: 8083
+      spring.profiles.active: dev
+      eureka.client.service-url.defaultZone: http://eureka-server:1111/eureka
 
 networks:
   net:
